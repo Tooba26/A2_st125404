@@ -59,6 +59,8 @@ Sequence Length (seq_len): 50
 The models were trained on **50 epochs.**
 
 # Task 3
+The web app is developed on Streamlit and styled using CSS.
+Demo of Web App: https://drive.google.com/file/d/1VjvmQUvBDStcCQxuTwkQvXAvyvKmDpyc/view?usp=drive_link
 1. Application Navigation (app.py)
 - The app.py file initializes a Streamlit session state to manage navigation across multiple pages:
 
