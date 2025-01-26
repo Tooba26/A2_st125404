@@ -7,6 +7,28 @@ from torchtext.vocab import Vocab
 import pickle  # If vocab is saved as a pickle file
 from model import LSTMLanguageModel  # Adjust this import
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        color: white; /* Optional: Change text color to match the background */
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: #1f1f3f; /* Matching sidebar color */
+        color: #ffffff; /* White text for contrast */
+    }
+    </style>
+    """,
+unsafe_allow_html=True,
+)
+
+with st.sidebar:
+    st.title("Navigation")  # This will always appear first
+    st.markdown("Choose an option from above option ⬆️")
+
 # Load the saved model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = LSTMLanguageModel(vocab_size=10727, emb_dim=1024, hid_dim=1024, num_layers=2, dropout_rate=0.65)
@@ -41,11 +63,18 @@ def generate(prompt, max_seq_len, temperature):
     return " ".join(tokens)
 
 # Streamlit UI
-st.title("Text Generator - Predictive Completion")
+st.title("📚 Book Corpus")
 
-prompt = st.text_input("Enter the starting text (e.g., 'I am'):", value="")
-max_seq_len = st.slider("Max Length of Generated Text", min_value=10, max_value=100, value=30)
-temperature = st.slider("Diversity (Temperature)", min_value=0.5, max_value=1.5, step=0.1, value=1.0)
+prompt = st.text_input("✏️ Enter the starting text (e.g., 'I am'):", value="")
+
+# Collapsible section for sliders
+with st.expander("⚙️ Optional: Customize Settings"):
+    max_seq_len = st.slider("Max Length of Generated Text", min_value=10, max_value=100, value=30)
+    temperature = st.slider("Diversity (Temperature)", min_value=0.5, max_value=1.5, step=0.1, value=1.0)
+
+# Default values if the user doesn't interact with sliders
+max_seq_len = max_seq_len if 'max_seq_len' in locals() else 30
+temperature = temperature if 'temperature' in locals() else 1.0
 
 if st.button("Generate"):
     if prompt.strip() == "":
