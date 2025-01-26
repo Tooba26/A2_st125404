@@ -33,24 +33,15 @@ Cross-Entropy Loss is used, which measures the difference between the predicted 
 Adam Optimizer is used to update the model parameters.
 A ReduceLROnPlateau scheduler reduces the learning rate when the validation loss plateaus to improve convergence.
 Gradients are clipped to a maximum value (clip) to prevent exploding gradients, which are common in RNNs.
-Training Loop:
-Hidden State Initialization:
 The hidden states of the LSTM are initialized to zeros at the beginning of each epoch.
 
-For each batch of input (src) and target (target):
-The hidden state is detached to prevent backpropagation through time beyond the current batch.
+For each batch of input (src) and target (target), The hidden state is detached to prevent backpropagation through time beyond the current batch.
 The forward pass computes predictions using the LSTM and linear layers.
 The predictions are reshaped to match the dimensions required by the loss function.
-Backpropagation:
-
 The loss is computed, and gradients are calculated via loss.backward().
 Gradients are clipped using torch.nn.utils.clip_grad_norm_.
-Parameter Update:
-
 The optimizer updates the model parameters using the computed gradients.
-
 The loss is accumulated over all batches in the epoch to compute the average training loss.
-
 The model is set to evaluation mode (model.eval()), and gradient computation is disabled (torch.no_grad()).
 
 For each batch of validation data:
@@ -66,3 +57,6 @@ Dropout Rate: 0.65
 Sequence Length (seq_len): 50
 
 The models were trained on **50 epochs.**
+
+# Task 3
+
