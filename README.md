@@ -59,4 +59,51 @@ Sequence Length (seq_len): 50
 The models were trained on **50 epochs.**
 
 # Task 3
+1. Application Navigation (app.py)
+- The app.py file initializes a Streamlit session state to manage navigation across multiple pages:
+
+- Home Page: Displays navigation buttons.
+- Book Page: For predictive text generation using one language model.
+- Tel Page: For predictive text generation using another language model.
+- Buttons (Go to Book Page and Go to Tel Page) allow the user to navigate between pages by setting the session state (st.session_state.page).
+
+Based on the page value in the session state:
+
+book.py and tel.py scripts are executed dynamically using exec.
+
+2. Book Page (pages/book.py)
+The Book Page performs predictive text generation using a pre-trained LSTM-based language model.
+- Loads a pre-trained LSTM model (best-val-lstm_lm.pt) using PyTorch.
+- The model is set to evaluation mode and moved to the appropriate device (CPU or GPU).
+- Loads a vocabulary (vocab.pkl) for token-to-index and index-to-token conversions.
+- Uses the tokenizer (basic_english) to tokenize the input text.
+- The generate function takes a prompt, maximum sequence length, and temperature as inputs.
+- Converts the prompt into token indices.
+- Feeds tokens into the LSTM model in a loop to predict the next token until the maximum sequence length or <eos> token is reached.
+- Probabilities of the next word are adjusted using the temperature parameter to control diversity:
+- Higher temperature → More diverse output (less certainty).
+- Lower temperature → Less diverse (more focused output).
+- Converts token indices back into words to form the final generated text.
+
+Users enter a starting prompt and adjust parameters (maximum text length, temperature) using input fields and sliders.
+Clicking the Generate button triggers the text generation function and displays the output.
+
+3. Tel Page (pages/tel.py)
+The Tel Page is structured similarly to the Book Page but uses a different LSTM model (best-val-lstm_phone_seq.pt) and vocabulary.
+
+Differences:
+- Vocabulary size is different (10531 vs. 10727).
+
+4. Language Model Interface
+
+- Both pages use a custom LSTM-based language model, defined in model.py. The process involves:
+- Loading Pre-Trained Models
+
+- LSTM models with specific configurations (embedding size, hidden size, layers, dropout) are instantiated and loaded with pre-trained weights.
+Hidden State Initialization:
+- The init_hidden method of the model initializes the hidden and cell states of the LSTM for text generation.
+- Input text is tokenized into indices using the vocabulary.
+- Model outputs probabilities for the next token in the sequence.
+- Multinomial sampling is used to pick the next token based on probabilities, controlled by temperature.
+-The Streamlit UI enables real-time interaction, letting users customize inputs and immediately see the generated output.
 
