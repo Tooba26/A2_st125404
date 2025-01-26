@@ -1,4 +1,5 @@
 # A2_Language_Model
+Due to large size of models, I have uploaded on the drive: https://drive.google.com/drive/folders/1t-9Ar3suiY6NtadSKTwdhkt88394smzY?usp=sharing
 # Task 1: Dataset Acquisition
 1) The dataset chosen is a bookcorpus retrieved from huggingface.  Combined with the diff results, the manual inspection confirmed that each filename represents one unique book, thus BookCorpus contained at most 7,185 unique books. Each book in BookCorpus simply includes the full text from the ebook (often including preamble, copyright text, etc.).
 
